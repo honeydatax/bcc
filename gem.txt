@@ -1,0 +1,5 @@
+http://www.retroarchive.org/cpm/archive/unofficial/download/gemvdi-m.zip
+
+http://www.ibiblio.org/pub/micro/pc-stuff/freedos/files/distributions/1.2/repos/pkg-html/opengem.html
+http://www.ibiblio.org/pub/micro/pc-stuff/freedos/files/distributions/1.2/repos/pkg-html/ozonegui.html
+http://www.ibiblio.org/pub/micro/pc-stuff/freedos/files/distributions/1.2/repos/pkg-html/seal.html
