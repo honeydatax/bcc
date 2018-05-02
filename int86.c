@@ -11,17 +11,18 @@ int getkey();
 void main(){
 	
 	int t;
+	printf("press key\n");
 	t=getkey();
 	
-	printf("%i",t);
+	printf("the key you press code:%i\n",t);
 
 }
 
 int getkey()
 {
-	struct REGS r1;
-	struct SREGS r;
-	r1.h.ah=0;
+	union REGS r1;
+	union REGS r;
+	r.h.ah=0;
 	int86(0x16,&r,&r1);
 	return r1.x.ax;
 	}
