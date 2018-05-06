@@ -12,7 +12,7 @@ void main(){
 	int c;
 	char s[50];
 	*print1=s;
-strcpy(print1,"wait 5 seconds\0");
+strcpy(print1,"wait 5 seconds\n#\0\0");
 
 	print();
 	sleep1=5*18;
@@ -44,17 +44,13 @@ strcpy(print1,"wait 5 seconds\0");
 	int i;
 	int ii;
 	
-	for (i=0;i<1024;i++){
-		if (print1[i]>6){
+	do{
+
 	r.h.ah=0xe;
 	r.h.bh=0x0;
 	r.h.bh=0x70;
 	r.h.al=print1[i];
 	
-
-	int86(0x10,&r,&r1);
-	}
-	if (print1[i]<7)i=1024;
-	
-	}
+i++;
+	int86(0x10,&r,&r1);}while(print1[i]!='\0');
 	}
