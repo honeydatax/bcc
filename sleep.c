@@ -44,15 +44,17 @@ strcpy(print1,"wait 5 seconds\0");
 	int i;
 	int ii;
 	
-	for (i=0;print1[i]>0;i++){
+	for (i=0;i<1024;i++){
+		if (print1[i]>6){
 	r.h.ah=0xe;
 	r.h.bh=0x0;
 	r.h.bh=0x70;
 	r.h.al=print1[i];
 	
 
-	if (print1[i]!=0)int86(0x10,&r,&r1);
-	if (print1[i]==0)i=32001;
+	int86(0x10,&r,&r1);
+	}
+	if (print1[i]<7)i=1024;
 	
 	}
 	}
