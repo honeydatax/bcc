@@ -44,7 +44,7 @@ strcpy(print1,"wait 5 seconds\0");
 	int i;
 	int ii;
 	
-	for (i=0;i<1024;i++){
+	for (i=0;print1[i]>0;i++){
 	r.h.ah=0xe;
 	r.h.bh=0x0;
 	r.h.bh=0x70;
