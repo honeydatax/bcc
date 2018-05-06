@@ -10,9 +10,8 @@ void sleep();
 void print();
 void main(){
 	int c;
-	char s[50];
-	*print1=s;
-strcpy(print1,"wait 5 seconds\n#\0\0");
+	
+	print1="wait 5 seconds\n$\0\0";
 
 	print();
 	sleep1=5*18;
@@ -44,13 +43,12 @@ strcpy(print1,"wait 5 seconds\n#\0\0");
 	int i;
 	int ii;
 	
-	do{
-
-	r.h.ah=0xe;
-	r.h.bh=0x0;
-	r.h.bh=0x70;
-	r.h.al=print1[i];
 	
-i++;
-	int86(0x10,&r,&r1);}while(print1[i]!='\0');
+
+	r.h.ah=0x9;
+	
+	r.x.dx=&print1[0];
+	
+	int86(0x21,&r,&r1);
+	
 	}
