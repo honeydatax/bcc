@@ -16,13 +16,16 @@ int recty;
 int rectx1;
 int recty1;
 char rectcolor;
-
-
+char cls1;
+int sleep1;
 
 
 int screen13();
 int hlines();
 int rect();
+void cls13();
+
+void sleep();
 
 void main(){
 	int c;
@@ -66,8 +69,8 @@ int screen13()
 
 int hlines()
 {
-	char s[320];
-	
+
+	int ir;
 	int xx ;
 int yy;
 int xx1;
@@ -91,12 +94,40 @@ int r;
 	if (yy1<0) yy1=0;
 	if (xx<=xx1 && yy==yy1) {
 		xxa=xx1-xx;
+		if (xxa<1) xxa=1;
 		yyy=yy1-yy;
-		for (xxx=0;xxx<xxa;xxx++){
-			s[xxx]=hlinecolor;
-			}
-			xxx=yy*320+xx;
-			movedata(__get_ds(),&s[0],0xA000,xxx,xxa);
+		
+	
+			
+	xxx=yy*320+xx;
+	ir=0xa000;
+	movedata(__get_ds(),&ir,__get_cs(),0x80,2);
+	ir=xxx;
+	movedata(__get_ds(),&ir,__get_cs(),0x82,2);
+	ir=xxa;
+	movedata(__get_ds(),&ir,__get_cs(),0x84,2);
+	movedata(__get_ds(),&hlinecolor,__get_cs(),0x86,1);
+	asm "push ds";
+	asm "push cs";
+	asm "pop ds";
+	asm "mov bx,[0x82]";
+	asm "mov dx,[0x86]";
+	
+	asm "mov cx,[0x84]";
+	asm "mov ax,[0x80]";
+	asm "push ax";
+	asm "pop ds";
+	asm "mov al,dl";
+	asm "xor dx,dx";
+asm "label2:";
+asm "mov [bx],al";
+asm "inc bx";
+asm "dec cx";
+asm "cmp cx,dx";
+	asm "jnz label2";
+	asm "pop ds";
+			
+			
 		r=-1;
 		
 		
@@ -150,3 +181,48 @@ hlines();
 		
 		return r;
 	}
+
+void sleep(){
+		unsigned long i;
+		unsigned long ii;
+		unsigned long iii;
+		iii=(long) sleep1;
+		movedata(0x40,0x6c,__get_ds(),&i,4);
+		i=iii+i;
+		do
+		{
+			movedata(0x40,0x6c,__get_ds(),&ii,4);
+			}while (ii<i) ;
+	
+		
+		
+		}
+		
+void cls13()
+{
+	int i;
+	i=0xa000;
+	movedata(__get_ds(),&i,__get_cs(),0x80,2);
+	i=320*200;
+	movedata(__get_ds(),&i,__get_cs(),0x82,2);
+	movedata(__get_ds(),&cls1,__get_cs(),0x84,1);
+	asm "push ds";
+	asm "push cs";
+	asm "pop ds";
+	asm "mov bx,[0x82]";
+	asm "mov cx,[0x84]";
+	asm "mov ax,[0x80]";
+	asm "push ax";
+	asm "pop ds";
+	asm "mov al,cl";
+	
+asm "label1:";
+asm "mov [bx],al";
+asm "dec bx";
+asm "cmp bx,0";
+	asm "jnz label1";
+	asm "pop ds";
+	
+	}
+
+
