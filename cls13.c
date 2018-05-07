@@ -68,8 +68,8 @@ int screen13()
 
 int hlines()
 {
-	char s[320];
-	
+
+	int ir;
 	int xx ;
 int yy;
 int xx1;
@@ -93,12 +93,40 @@ int r;
 	if (yy1<0) yy1=0;
 	if (xx<=xx1 && yy==yy1) {
 		xxa=xx1-xx;
+		if (xxa<1) xxa=1;
 		yyy=yy1-yy;
-		for (xxx=0;xxx<xxa;xxx++){
-			s[xxx]=hlinecolor;
-			}
-			xxx=yy*320+xx;
-			movedata(__get_ds(),&s[0],0xA000,xxx,xxa);
+		
+	
+			
+	xxx=yy*320+xx;
+	ir=0xa000;
+	movedata(__get_ds(),&ir,__get_cs(),0x80,2);
+	ir=xxx;
+	movedata(__get_ds(),&ir,__get_cs(),0x82,2);
+	ir=xxa;
+	movedata(__get_ds(),&ir,__get_cs(),0x84,2);
+	movedata(__get_ds(),&hlinecolor,__get_cs(),0x86,1);
+	asm "push ds";
+	asm "push cs";
+	asm "pop ds";
+	asm "mov bx,[0x82]";
+	asm "mov dx,[0x86]";
+	
+	asm "mov cx,[0x84]";
+	asm "mov ax,[0x80]";
+	asm "push ax";
+	asm "pop ds";
+	asm "mov al,dl";
+	asm "xor dx,dx";
+asm "label2:";
+asm "mov [bx],al";
+asm "inc bx";
+asm "dec cx";
+asm "cmp cx,dx";
+	asm "jnz label2";
+	asm "pop ds";
+			
+			
 		r=-1;
 		
 		
