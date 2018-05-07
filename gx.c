@@ -26,6 +26,10 @@ int rect();
 
 void main(){
 	int c;
+	int d;
+	int tt;
+	long l;
+	long ll;
 	char b=1;
 	
 	int t=screen13();
@@ -35,16 +39,20 @@ rectx1=319;
 recty1=199;
 rectcolor=15;
 rect();
-hlinex=320/2;
-hlinex1=320/2;
+tt=320/2;
+d=320/2+1;
 hlinecolor=b;
-
-for(c=0;c<200;c=c+5){
+l=0;
+for(c=0;c<200;c++){
+	
+	hlinex=tt;
+hlinex1=d;
 hliney=c;
 hliney1=c;
 hlines();
-hlinex=hlinex-2;
-hlinex1=hlinex1+2;
+d=d+1;
+tt=tt-1;
+
 }
 }
 
