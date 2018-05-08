@@ -30,32 +30,27 @@ void sleep();
 void main(){
 	int c;
 	int d;
-	int tt;
 	long l;
 	long ll;
 	char b=1;
 	
 	int t=screen13();
-rectx=0;
-recty=0;
-rectx1=319;
-recty1=199;
-rectcolor=15;
-rect();
-tt=320/2;
-d=320/2+1;
-hlinecolor=b;
-l=0;
-for(c=0;c<200;c++){
+	cls1=15;
+	cls13();
 	
-	hlinex=tt;
-hlinex1=d;
-hliney=c;
-hliney1=c;
-hlines();
-d=d+1;
-tt=tt-1;
-
+rectx=10;
+recty=10;
+rectx1=50;
+recty1=50;
+rectcolor=1;
+for(c=0;c<14;c++){
+	
+rect();
+rectx+=10;
+recty+=10;
+rectx1+=10;
+recty1+=10;
+rectcolor++;
 }
 }
 
@@ -143,38 +138,82 @@ asm "cmp cx,dx";
 
 int rect()
 {
-	int c;
+	int ir;
+	int ny;
+	int nx;
 	int xx ;
 int yy;
 int xx1;
 int yy1;
 int xxx;
 int yyy;
-int xxa;
 int r;
+	
+	int xxa;
 	xx=rectx;
 	yy=recty;
-	yy1=recty1;
 	xx1=rectx1;
-
+	yy1=recty1;
+	if (xx>319) xx=319;
+	if (xx1>319) xx1=319;
 	if (yy>199) yy=199;
 	if (yy1>199) yy1=199;
+	if (xx<0) xx=0;
+	if (xx1<0) xx1=0;
 	if (yy<0) yy=0;
 	if (yy1<0) yy1=0;
-	if (yy<=yy1) {
-
-hlinex=xx;
-hlinex1=xx1;
-hlinecolor=rectcolor;
-
-for(c=yy;c<=yy1;c++){
+	if (xx<=xx1 && yy<=yy1) {
+		xxa=xx1-xx;
+		if (xxa<1) xxa=1;
+		yyy=yy1-yy;
+		nx=320-xxa;
 	
-hliney=c;
-hliney1=c;
-hlines();
-	
-	}
-	r=-1;
+			
+	xxx=yy*320+xx;
+	ir=0xa000;
+	movedata(__get_ds(),&ir,__get_cs(),0x80,2);
+	ir=xxx;
+	movedata(__get_ds(),&ir,__get_cs(),0x82,2);
+	ir=xxa;
+	movedata(__get_ds(),&ir,__get_cs(),0x84,2);
+	ir=nx;
+	movedata(__get_ds(),&ir,__get_cs(),0x86,2);
+	ir=yyy;
+	movedata(__get_ds(),&ir,__get_cs(),0x88,2);
+	movedata(__get_ds(),&rectcolor,__get_cs(),0x8a,1);
+	asm "push ds";
+	asm "push cs";
+	asm "pop ds";
+	asm "mov di,[0x82]";
+	asm "mov si,[0x86]";
+	asm "mov dx,[0x8a]";
+	asm "mov bx,[0x88]";
+	asm "mov cx,[0x84]";
+	asm "mov ax,[0x80]";
+	asm "push ax";
+	asm "pop ds";
+	asm "mov al,dl";
+	asm "xor dx,dx";
+	asm "push cx";
+	asm "label4:";
+	asm "pop cx";
+	asm "push cx";
+asm "label5:";
+asm "mov [di],al";
+asm "inc di";
+asm "dec cx";
+asm "cmp cx,dx";
+	asm "jnz label5";
+	asm "clc";
+	asm "add di,si";
+asm "dec bx";
+asm "cmp bx,dx";
+	asm "jnz label4";
+	asm "pop ax";
+	asm "pop ds";
+			
+			
+		r=-1;
 		
 		
 		}else{
@@ -216,12 +255,13 @@ void cls13()
 	asm "mov ax,[0x80]";
 	asm "push ax";
 	asm "pop ds";
+	asm "xor dx,dx";
 	asm "mov al,cl";
 	
 asm "label1:";
 asm "mov [bx],al";
 asm "dec bx";
-asm "cmp bx,0";
+asm "cmp bx,dx";
 	asm "jnz label1";
 	asm "pop ds";
 	
