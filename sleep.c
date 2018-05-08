@@ -4,17 +4,27 @@
 #include <conio.h>
 #include <string.h>
 
-char *print1;
+int x;
+int y;
+char color;
+int print1;
+char cls1;
 int sleep1;
 void sleep();
 void print();
+void cls3();
 void main(){
 	int c;
-	char cc[50];
-	print1=cc[0];
-	strcpy(print1,"wait 5 seconds\n$\0\0");
+	char ss[50];
+	char *s="wait 5 seconds";
+	strcpy(ss,s);
 	
-
+	print1=&ss;
+	cls1=0x17;
+	color=cls1;
+cls3();
+x=0;
+y=0;
 	print();
 	sleep1=5*18;
 	sleep();
@@ -40,17 +50,83 @@ void main(){
 		
 		void print(){
 			
-			union REGS r1;
-	union REGS r;
-	int i;
-	int ii;
+			int i;
+	i=0xb800;
+	movedata(__get_ds(),&i,__get_cs(),0x80,2);
+	i=y*80+x*2;
+	movedata(__get_ds(),&i,__get_cs(),0x82,2);
+	i=(int)color;
+	i=i<<8;
+	i=i+32;
+	movedata(__get_ds(),&i,__get_cs(),0x84,2);
+	i=print1;
+	movedata(__get_ds(),&i,__get_cs(),0x86,2);
+	i=__get_ds();
+	movedata(__get_ds(),&i,__get_cs(),0x88,2);
+	asm "push ds";
+	asm "push cs";
+	asm "pop ds";
+	asm "mov di,[0x82]";
+	asm "mov si,[0x86]";
+	asm "mov dx,[0x84]";
+	asm "mov cx,[0x88]";
+	asm "mov ax,[0x80]";
+	asm "push ax";
+	asm "pop ds";
+	asm "xor dl,dl";
 	
-	
+	asm "mov ah,dh";
 
-	r.h.ah=0x9;
+asm "label8:";
+asm "push ds";
+asm "mov ds,cx";
+asm "mov al,[si]";
+asm "pop ds";
+asm "mov [di],ax";
+asm "inc si";
+asm "inc di";
+asm "inc di";
+asm "cmp al,dl";
+	asm "jnz label8";
+	asm "pop ds";
 	
-	r.x.dx=&print1[0];
-	
-	int86(0x21,&r,&r1);
 	
 	}
+	
+	void cls3()
+{
+	int i;
+	i=0xb800;
+	movedata(__get_ds(),&i,__get_cs(),0x80,2);
+	i=80*25*2-2;
+	movedata(__get_ds(),&i,__get_cs(),0x82,2);
+	i=(int)cls1;
+	i=i<<8;
+	i=i+32;
+	movedata(__get_ds(),&i,__get_cs(),0x84,2);
+	asm "push ds";
+	asm "push cs";
+	asm "pop ds";
+	asm "mov bx,[0x82]";
+	asm "mov cx,[0x84]";
+	asm "mov ax,[0x80]";
+	asm "push ax";
+	asm "pop ds";
+	asm "xor dx,dx";
+	asm "dec dx";
+	asm "dec dx";
+	asm "mov ax,cx";
+
+asm "label1:";
+asm "mov [bx],ax";
+asm "dec bx";
+asm "dec bx";
+asm "cmp bx,dx";
+	asm "jnz label1";
+	asm "pop ds";
+	
+	}
+
+	
+	
+	
