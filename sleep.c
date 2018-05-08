@@ -53,7 +53,7 @@ y=0;
 			int i;
 	i=0xb800;
 	movedata(__get_ds(),&i,__get_cs(),0x80,2);
-	i=y*80+x*2;
+	i=(y*80+x)*2;
 	movedata(__get_ds(),&i,__get_cs(),0x82,2);
 	i=(int)color;
 	i=i<<8;
