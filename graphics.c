@@ -258,12 +258,13 @@ void cls13()
 	asm "mov ax,[0x80]";
 	asm "push ax";
 	asm "pop ds";
+	asm "xor dx,dx";
 	asm "mov al,cl";
 	
 asm "label1:";
 asm "mov [bx],al";
 asm "dec bx";
-asm "cmp bx,0";
+asm "cmp bx,dx";
 	asm "jnz label1";
 	asm "pop ds";
 	
