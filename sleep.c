@@ -11,8 +11,9 @@ void print();
 void main(){
 	int c;
 	char cc[50];
-	strcpy(cc[0],"wait 5 seconds\n$\0\0");
 	print1=cc[0];
+	strcpy(print1,"wait 5 seconds\n$\0\0");
+	
 
 	print();
 	sleep1=5*18;
