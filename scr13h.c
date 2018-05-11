@@ -6,6 +6,18 @@
 #include <varargs.h>
 #include <stdlib.h>
 
+int x;
+int y;
+char color;
+int draw1;
+char cls1;
+int sleep1;
+int number1;
+int number2;
+int sound1;
+int sound2;
+
+int screenptr;
 int hlinex;
 int hliney;
 int hlinex1;
@@ -18,14 +30,17 @@ int recty1;
 char rectcolor;
 char cls1;
 int sleep1;
-
-
+long get_ttimer();
+void sounds();
+void draws();
 int screen13();
 int hlines();
 int rect();
 void cls13();
-
+void getptr();
 void sleep();
+void refresh();
+
 
 void main(){
 	int c;
@@ -35,6 +50,7 @@ void main(){
 	char b=1;
 	
 	int t=screen13();
+getptr();
 	cls1=15;
 	cls13();
 	
@@ -52,6 +68,7 @@ rectx1+=10;
 recty1+=10;
 rectcolor++;
 }
+refresh();
 }
 
 int screen13()
@@ -97,7 +114,7 @@ int r;
 	
 			
 	xxx=yy*320+xx;
-	ir=0xa000;
+	ir=screenptr;
 	movedata(__get_ds(),&ir,__get_cs(),0x80,2);
 	ir=xxx;
 	movedata(__get_ds(),&ir,__get_cs(),0x82,2);
@@ -170,7 +187,7 @@ int r;
 	
 			
 	xxx=yy*320+xx;
-	ir=0xa000;
+	ir=screenptr;
 	movedata(__get_ds(),&ir,__get_cs(),0x80,2);
 	ir=xxx;
 	movedata(__get_ds(),&ir,__get_cs(),0x82,2);
@@ -242,7 +259,7 @@ void sleep(){
 void cls13()
 {
 	int i;
-	i=0xa000;
+	i=screenptr;
 	movedata(__get_ds(),&i,__get_cs(),0x80,2);
 	i=320*200;
 	movedata(__get_ds(),&i,__get_cs(),0x82,2);
@@ -268,3 +285,178 @@ asm "cmp bx,dx";
 	}
 
 
+	long get_ttimer(){
+		long i;
+		movedata(0x40,0x6c,__get_ds(),&i,4);
+		return  i;
+		}
+		
+		int max(){
+		int r ;
+		if ( number1>number2){
+			r=number1;
+			}else{
+				r=number2;
+				}
+		return r;
+		}
+	
+	
+	int min(){
+		int r ;
+		if ( number1<number2){
+			r=number1;
+			}else{
+				r=number2;
+				}
+		return r;
+		}
+	
+	
+	void sounds(){
+		int r;
+		long f1;
+		long f2;
+		int i1;
+		int i2;
+		int i;
+		 f1 = 1193181 /sound1;
+		f2=f1;
+		f1=f1 & 0xffff0000;
+		f1=f1>>16;
+		f2=f2 & 0xffff;
+		i1=(int) f1;
+		i2=(int)f2;
+		
+		movedata(__get_ds(),&i1,__get_cs(),0x80,2);
+		movedata(__get_ds(),&i2,__get_cs(),0x82,2);
+		
+	i=0x61;
+	movedata(__get_ds(),&i,__get_cs(),0x84,2);
+	i=0x43;
+	movedata(__get_ds(),&i,__get_cs(),0x86,2);
+	i=0xb6;
+	movedata(__get_ds(),&i,__get_cs(),0x88,2);
+	i=3;
+	movedata(__get_ds(),&i,__get_cs(),0x8a,2);
+	i=0xfc;
+	movedata(__get_ds(),&i,__get_cs(),0x8c,2);
+		asm "push ds";
+		
+		asm "push cs";
+		asm "pop ds";
+		
+		asm "mov dx,[0x84]";
+		asm "mov ah,[0x8a]";
+		asm "in al,dx";
+		
+		asm "or al,ah";
+		asm "out dx,al";
+		asm "mov dx,[0x86]";
+		asm "mov al,[0x88]";
+		asm "out dx,al";
+		asm "dec dx";
+		asm "mov ax,[0x82]";
+		asm "out dx,al";
+		asm "mov al,ah";
+		asm "out dx,al";
+		asm "pop ds";
+		
+		sleep1=sound2;
+		sleep();
+		
+		i=0x61;
+	movedata(__get_ds(),&i,__get_cs(),0x84,2);
+	i=0x43;
+	movedata(__get_ds(),&i,__get_cs(),0x86,2);
+	i=0xb6;
+	movedata(__get_ds(),&i,__get_cs(),0x88,2);
+	i=3;
+	movedata(__get_ds(),&i,__get_cs(),0x8a,2);
+	i=0xfc;
+	movedata(__get_ds(),&i,__get_cs(),0x8c,2);
+		
+		asm "push ds";
+		asm "push cs";
+		asm "pop ds";
+		
+	    asm "mov dx,[0x84]";
+		asm "in al,dx";
+		asm "and al,[0x8c]";
+		asm "out dx,al";
+		
+		asm "pop ds";
+		
+		
+		}
+
+void draws(){
+rectx=x-10;
+recty=y-20;
+rectx1=x+10;
+recty1=y+20;
+rectcolor=draw1;
+rect();
+rectx=x-20;
+recty=y-10;
+rectx1=x+20;
+recty1=y+10;
+rectcolor=draw1;
+rect();
+
+
+}
+
+
+
+
+	void getptr(){
+		
+		int r;
+		
+		asm "push ds";
+		asm "push cs";
+		asm "pop ds";
+		asm "mov ax,ss";
+		asm "mov [0x80],ax";
+		asm "pop ds";
+		
+	    movedata(__get_cs(),0x80,__get_ds(),&r,2);
+		screenptr=r+0x2000;
+		
+		}
+
+void refresh()
+{
+	int i;
+i=0xa000;
+
+	movedata(__get_ds(),&i,__get_cs(),0x80,2);
+	i=320*200;
+	movedata(__get_ds(),&i,__get_cs(),0x82,2);
+	i=screenptr;
+	movedata(__get_ds(),&i,__get_cs(),0x84,2);
+	asm "push ds";
+	asm "push cs";
+	asm "pop ds";
+	asm "mov bx,[0x82]";
+	asm "mov cx,[0x84]";
+	asm "mov ax,[0x80]";
+	asm "push ax";
+	asm "pop ds";
+	asm "xor dx,dx";
+	asm "dec dx";
+	asm "mov al,cl";
+	
+asm "label10:";
+asm "push ds";
+asm "mov ds,cx";
+asm "mov al,[bx]";
+asm "pop ds";
+asm "mov [bx],al";
+asm "dec bx";
+asm "cmp bx,dx";
+	asm "jnz label10";
+	asm "pop ds";
+	
+	}
