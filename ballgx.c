@@ -472,7 +472,7 @@ rect();
 		asm "pop ds";
 		
 	    movedata(__get_cs(),0x80,__get_ds(),&r,2);
-		screenptr=r+0x1000;
+		screenptr=r+0x2000;
 		
 		}
 
@@ -495,6 +495,7 @@ i=0xa000;
 	asm "push ax";
 	asm "pop ds";
 	asm "xor dx,dx";
+	asm "dec dx";
 	asm "mov al,cl";
 	
 asm "label10:";
