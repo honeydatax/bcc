@@ -17,6 +17,7 @@ int number2;
 int sound1;
 int sound2;
 
+int screenptr;
 int hlinex;
 int hliney;
 int hlinex1;
@@ -36,8 +37,10 @@ int screen13();
 int hlines();
 int rect();
 void cls13();
-
+void getptr();
 void sleep();
+void refresh();
+
 
 void main(){
 	int c;
@@ -57,7 +60,8 @@ void main(){
 	long t3;
 	
 	int t=screen13();
-	cls1=15;
+getptr();
+cls1=15;
 	cls13();
 	
 	color=cls1;
@@ -70,7 +74,7 @@ void main(){
     y2=0;
     xx=10;
     yy=10;
-    t3=2;
+    t3=1;
     do{
         t1=get_ttimer();
         t1=t1+t3;
@@ -82,7 +86,7 @@ void main(){
         y=y1;
         draw1=1;
         draws();
-       
+       refresh();
         y2=y1;
         x2=x1;
         x1=x1+xx;
@@ -160,7 +164,7 @@ int r;
 	
 			
 	xxx=yy*320+xx;
-	ir=0xa000;
+	ir=screenptr;
 	movedata(__get_ds(),&ir,__get_cs(),0x80,2);
 	ir=xxx;
 	movedata(__get_ds(),&ir,__get_cs(),0x82,2);
@@ -233,7 +237,7 @@ int r;
 	
 			
 	xxx=yy*320+xx;
-	ir=0xa000;
+	ir=screenptr;
 	movedata(__get_ds(),&ir,__get_cs(),0x80,2);
 	ir=xxx;
 	movedata(__get_ds(),&ir,__get_cs(),0x82,2);
@@ -305,7 +309,7 @@ void sleep(){
 void cls13()
 {
 	int i;
-	i=0xa000;
+	i=screenptr;
 	movedata(__get_ds(),&i,__get_cs(),0x80,2);
 	i=320*200;
 	movedata(__get_ds(),&i,__get_cs(),0x82,2);
@@ -452,3 +456,56 @@ rect();
 
 
 }
+
+
+
+
+	void getptr(){
+		
+		int r;
+		
+		asm "push ds";
+		asm "push cs";
+		asm "pop ds";
+		asm "mov ax,ss";
+		asm "mov [0x80],ax";
+		asm "pop ds";
+		
+	    movedata(__get_cs(),0x80,__get_ds(),&r,2);
+		screenptr=r+0x1000;
+		
+		}
+
+void refresh()
+{
+	int i;
+i=0xa000;
+
+	movedata(__get_ds(),&i,__get_cs(),0x80,2);
+	i=320*200;
+	movedata(__get_ds(),&i,__get_cs(),0x82,2);
+	i=screenptr;
+	movedata(__get_ds(),&i,__get_cs(),0x84,2);
+	asm "push ds";
+	asm "push cs";
+	asm "pop ds";
+	asm "mov bx,[0x82]";
+	asm "mov cx,[0x84]";
+	asm "mov ax,[0x80]";
+	asm "push ax";
+	asm "pop ds";
+	asm "xor dx,dx";
+	asm "mov al,cl";
+	
+asm "label10:";
+asm "push ds";
+asm "mov ds,cx";
+asm "mov al,[bx]";
+asm "pop ds";
+asm "mov [bx],al";
+asm "dec bx";
+asm "cmp bx,dx";
+	asm "jnz label10";
+	asm "pop ds";
+	
+	}
