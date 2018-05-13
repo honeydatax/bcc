@@ -52,11 +52,11 @@ void main(){
 	
 	int t=screen13();
 getptr();
-	cls1=1;
+	cls1=15;
 cls13();
 hlinex=320/2+1;
 hlinex1=320/2-1;
-hlinecolor=b;
+hlinecolor=1;
 for (c=0;c<200;c++)
 {
 	hliney=c;
@@ -72,6 +72,7 @@ for (c=0;c<200;c++)
 	}
 refresh();
 }
+
 
 int screen13()
 {
@@ -126,21 +127,20 @@ int r;
 	asm "push ds";
 	asm "push cs";
 	asm "pop ds";
-	asm "mov bx,[0x82]";
+	asm "mov di,[0x82]";
 	asm "mov dx,[0x86]";
 	
 	asm "mov cx,[0x84]";
 	asm "mov ax,[0x80]";
 	asm "push ax";
-	asm "pop ds";
+	asm "pop es";
 	asm "mov al,dl";
 	asm "xor dx,dx";
+
 asm "label2:";
-asm "mov [bx],al";
-asm "inc bx";
-asm "dec cx";
-asm "cmp cx,dx";
-	asm "jnz label2";
+asm "cld";
+asm "rep";
+asm "stosb";
 	asm "pop ds";
 			
 			
@@ -210,7 +210,7 @@ int r;
 	asm "mov cx,[0x84]";
 	asm "mov ax,[0x80]";
 	asm "push ax";
-	asm "pop ds";
+	asm "pop es";
 	asm "mov al,dl";
 	asm "xor dx,dx";
 	asm "push cx";
@@ -218,11 +218,9 @@ int r;
 	asm "pop cx";
 	asm "push cx";
 asm "label5:";
-asm "mov [di],al";
-asm "inc di";
-asm "dec cx";
-asm "cmp cx,dx";
-	asm "jnz label5";
+asm "cld";
+asm "rep";
+asm "stosb";
 	asm "clc";
 	asm "add di,si";
 asm "dec bx";
@@ -263,25 +261,25 @@ void cls13()
 	int i;
 	i=screenptr;
 	movedata(__get_ds(),&i,__get_cs(),0x80,2);
-	i=320*200;
+	i=320*200+1;
 	movedata(__get_ds(),&i,__get_cs(),0x82,2);
 	movedata(__get_ds(),&cls1,__get_cs(),0x84,1);
 	asm "push ds";
 	asm "push cs";
 	asm "pop ds";
-	asm "mov bx,[0x82]";
-	asm "mov cx,[0x84]";
+	asm "mov cx,[0x82]";
+	asm "mov dx,[0x84]";
 	asm "mov ax,[0x80]";
 	asm "push ax";
-	asm "pop ds";
+	asm "pop es";
+	asm "mov al,dl";
 	asm "xor dx,dx";
-	asm "mov al,cl";
-	
+	asm "mov di,dx";	
 asm "label1:";
-asm "mov [bx],al";
-asm "dec bx";
-asm "cmp bx,dx";
-	asm "jnz label1";
+asm "cld";
+asm "rep";
+asm "stosb";
+	
 	asm "pop ds";
 	
 	}
