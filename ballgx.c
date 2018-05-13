@@ -482,31 +482,29 @@ void refresh()
 i=0xa000;
 
 	movedata(__get_ds(),&i,__get_cs(),0x80,2);
-	i=320*200;
+	i=320*200+1;
 	movedata(__get_ds(),&i,__get_cs(),0x82,2);
 	i=screenptr;
 	movedata(__get_ds(),&i,__get_cs(),0x84,2);
 	asm "push ds";
 	asm "push cs";
 	asm "pop ds";
-	asm "mov bx,[0x82]";
-	asm "mov cx,[0x84]";
+	asm "mov bx,[0x84]";
+	asm "mov cx,[0x82]";
 	asm "mov ax,[0x80]";
 	asm "push ax";
+	asm "pop es";
+	asm "push bx";
 	asm "pop ds";
 	asm "xor dx,dx";
-	asm "dec dx";
+	asm "mov si,dx";
+	asm "mov di,dx";
 	asm "mov al,cl";
 	
 asm "label10:";
-asm "push ds";
-asm "mov ds,cx";
-asm "mov al,[bx]";
-asm "pop ds";
-asm "mov [bx],al";
-asm "dec bx";
-asm "cmp bx,dx";
-	asm "jnz label10";
+asm "cld";
+asm "rep";
+asm "movsb";
 	asm "pop ds";
 	
 	}
