@@ -515,7 +515,7 @@ xxx=0;
 yyy=circler;
 pixelsetcolor=circlecolor;
 
-p=8-(yyy);
+p=1-(yyy);
 do{
 pixelsetx=circlex+xxx;
 pixelsety=circley+yyy;
@@ -556,7 +556,7 @@ p=p+(2*(xxx-yyy))+1;
 
 
 
-}while(xxx<yyy);
+}while(xxx<yyy+1);
 
 
 
