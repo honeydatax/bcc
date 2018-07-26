@@ -93,11 +93,26 @@ getptr();
 	cls1=4;
 	cls13();
 e=4;
+vlinecolor=1;
+hlinecolor=1;
+for (a=0;a<319;a=a+8){
+vliney=0;
+vliney1=199;
+vlinex=a;
+vlinex1=a;
+vlines();
+hliney=a;
+hliney1=a;
+hlinex=0;
+hlinex1=319;
+if (a<200) hlines();
+}
 
 refresh();
+for (e=0;e<200/8-1;e++){
 drawtextvalue=b;
-drawtextx=10;
-drawtexty=10;
+drawtextx=e;
+drawtexty=e;
 drawtextcolor=1;
 drawtext();
 rectsx=drawtextx*8;
@@ -106,7 +121,7 @@ rectsx1=(strlen(drawtextvalue)+drawtextx)*8;
 rectsy1=(drawtextx+1)*8;
 rectscolor=4;
 rects();
-
+}
 }
 
 
