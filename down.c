@@ -1027,20 +1027,28 @@ pixelset();
 for (n=0;n<diferent;n++){
 l3=l3+l1;
 l4=l4+l2;
-if (l3>1000){
+if (l3>999){
 l3=l3-1000;
 xxx1++;
 }
-if (l4>1000){
+if (l4>999){
 l4=l4-1000;
 yyy1++;
 }
 
 pixelsetx=xxx1;
 pixelsety=yyy1;
+if (xxx1>319 || yyy1>199) goto linedownexit;
 pixelset();
 
 }
 }
-
+linedownexit:
+;
 }
+
+
+
+
+
+
