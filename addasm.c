@@ -1,18 +1,12 @@
 #include <stdio.h>
 #include <bios.h>
 
-int addasm1;
-int addasm2;
-int adds();
+int adds(addasm1,addasm2);
 void main(){
-	int c;
-	addasm1=100;
-	addasm2=200;
-	c=adds();
-	printf("%d+%d=%d\n",addasm1,addasm2,c);
+	printf("10+10=%d\n",adds(10,10));
 	}
 	
-	int adds(){
+	int adds(addasm1,addasm2){
 		int r;
 		
 		movedata(__get_ds(),&addasm1,__get_cs(),0x80,2);
