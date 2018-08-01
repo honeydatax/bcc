@@ -9,38 +9,21 @@
 int x;
 int y;
 char color;
-int draw1;
-char cls1;
-int sleep1;
-int number1;
-int number2;
-int sound1;
-int sound2;
+
 
 int screenptr;
-int hlinex;
-int hliney;
-int hlinex1;
-int hliney1;
-char hlinecolor;
-int rectx;
-int recty;
-int rectx1;
-int recty1;
-char rectcolor;
-char cls1;
-int sleep1;
 long get_ttimer();
-void sounds();
-void draws();
+void sounds(sound1,sound2);
+void draws(draw1);
 int screen13();
-int hlines();
-int rect();
-void cls13();
-void getptr();
-void sleep();
+int hlines(hlinex,hliney,hlinex1,hliney1,hlinecolor);
+int rect(rectx,recty,rectx1,recty1,rectcolor);
+void cls13(cls1);
+int getptr();
+void sleep(sleep1);
 void refresh();
-
+int max(number1,number2);
+int min(number1,number2);
 
 void main(){
 	int c;
@@ -60,14 +43,12 @@ void main(){
 	long t3;
 	
 	int t=screen13();
-getptr();
-cls1=4;
-	cls13();
+screenptr=getptr();
+
+	cls13(4);
 	refresh();
-	color=cls1;
-	sound1=300;
-	sound2=3;
-	sounds();
+	color=4;
+	sounds(300,3);
 	x1=0;
     y1=0;
     x2=0;
@@ -80,12 +61,12 @@ cls1=4;
         t1=t1+t3;
         x=x2;
         y=y2;
-        draw1=4;
-        draws();
+
+        draws(4);
         x=x1;
         y=y1;
-        draw1=1;
-        draws();
+
+        draws(1);
        refresh();
         y2=y1;
         x2=x1;
@@ -94,22 +75,22 @@ cls1=4;
         if (x1>300){
         	x1=300;
         xx=-10;
-        sounds();
+        sounds(300,3);
         	}
                 if (x1<20){
         	x1=20;
         xx=10;
-        sounds();
+        sounds(300,3);
         	}
         if (y1>180){
         	y1=180;
         yy=-10;
-        sounds();
+        sounds(300,3);
         	}
                 if (y1<20){
         	y1=20;
         yy=10;
-        sounds();
+        sounds(300,3);
         	}
 
         
@@ -132,7 +113,7 @@ int screen13()
 	return r1.x.ax;
 	}
 
-int hlines()
+int hlines(hlinex,hliney,hlinex1,hliney1,hlinecolor)
 {
 
 	int ir;
@@ -203,7 +184,7 @@ asm "stosb";
 	}
 
 
-int rect()
+int rect(rectx,recty,rectx1,recty1,rectcolor)
 {
 	int ir;
 	int ny;
@@ -288,7 +269,7 @@ asm "cmp bx,dx";
 		return r;
 	}
 
-void sleep(){
+void sleep(sleep1){
 		unsigned long i;
 		unsigned long ii;
 		unsigned long iii;
@@ -304,7 +285,7 @@ void sleep(){
 		
 		}
 		
-void cls13()
+void cls13(cls1)
 {
 	int i;
 	i=screenptr;
@@ -339,7 +320,7 @@ asm "stosb";
 		return  i;
 		}
 		
-		int max(){
+		int max(number1,number2){
 		int r ;
 		if ( number1>number2){
 			r=number1;
@@ -350,7 +331,7 @@ asm "stosb";
 		}
 	
 	
-	int min(){
+	int min(number1,number2){
 		int r ;
 		if ( number1<number2){
 			r=number1;
@@ -361,7 +342,7 @@ asm "stosb";
 		}
 	
 	
-	void sounds(){
+	void sounds(sound1,sound2){
 		int r;
 		long f1;
 		long f2;
@@ -410,8 +391,8 @@ asm "stosb";
 		asm "out dx,al";
 		asm "pop ds";
 		
-		sleep1=sound2;
-		sleep();
+
+		sleep(sound2);
 		
 		i=0x61;
 	movedata(__get_ds(),&i,__get_cs(),0x84,2);
@@ -438,27 +419,15 @@ asm "stosb";
 		
 		}
 
-void draws(){
-rectx=x-10;
-recty=y-20;
-rectx1=x+10;
-recty1=y+20;
-rectcolor=draw1;
-rect();
-rectx=x-20;
-recty=y-10;
-rectx1=x+20;
-recty1=y+10;
-rectcolor=draw1;
-rect();
-
-
+void draws(draw1){
+rect(x-10,y-20,x+10,y+20,draw1);
+rect(x-20,y-10,x+20,y+10,draw1);
 }
 
 
 
 
-	void getptr(){
+	int getptr(){
 		
 		int r;
 		
@@ -470,7 +439,7 @@ rect();
 		asm "pop ds";
 		
 	    movedata(__get_cs(),0x80,__get_ds(),&r,2);
-		screenptr=r+0x2000;
+		return r+0x2000;
 		
 		}
 
