@@ -1,21 +1,16 @@
 #include <stdio.h>
 int number1;
 int number2;
-int adds();
+int adds(number1,number2);
 
 void main()
 
 {
-	
-	int c;
-	number1=100;
-	number2=200;
-	c=adds();
-	printf("%d+%d=%d",number1,number2,c);
+	printf("10+10=%d",adds(10,10));
 	
 	}
 	
-	int adds(){
+	int adds(number1,number2){
 		
 		return number1+number2;
 		}
