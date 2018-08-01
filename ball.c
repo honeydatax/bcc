@@ -4,23 +4,15 @@
 #include <conio.h>
 #include <string.h>
 
-int x;
-int y;
-char color;
-int print1;
-char cls1;
-int sleep1;
-int number1;
-int number2;
-int sound1;
-int sound2;
-int max();
-int min();
-void sleep();
-void print();
-void cls3();
+
+
+int max(number1,number2);
+int min(number1,number2);
+void sleep(sleep1);
+void print(x,y,color,print1);
+void cls3(cls1);
 long get_ttimer();
-void sounds();
+void sounds(sound1,sound2);
 void main(){
 	int x1;
 	int y1;
@@ -38,12 +30,9 @@ void main(){
 	char *s="O";
 	strcpy(ss,s);
 	strcpy(sss,s1);
-	cls1=0x41;
-	cls3();
-	color=cls1;
-	sound1=300;
-	sound2=3;
-	sounds();
+	cls3(0x41);
+
+	sounds(300,3);
 	x1=0;
     y1=0;
     x2=0;
@@ -54,14 +43,8 @@ void main(){
     do{
         t1=get_ttimer();
         t1=t1+t3;
-        x=x2;
-        y=y2;
-        print1=&sss;
-        print();
-        x=x1;
-        y=y1;
-        print1=&ss;
-        print();
+        print(x2,y2,0x41,&sss);
+        print(x1,y1,0x41,&ss);
        
         y2=y1;
         x2=x1;
@@ -70,22 +53,22 @@ void main(){
         if (x1>79){
         	x1=79;
         xx=-1;
-        sounds();
+        sounds(300,3);
         	}
                 if (x1<0){
         	x1=0;
         xx=1;
-        sounds();
+        sounds(300,3);
         	}
         if (y1>24){
         	y1=24;
         yy=-1;
-        sounds();
+        sounds(300,3);
         	}
                 if (y1<0){
         	y1=0;
         yy=1;
-        sounds();
+        sounds(300,3);
         	}
 
         
@@ -97,7 +80,7 @@ void main(){
 
 	}
 	
-	void sleep(){
+	void sleep(sleep1){
 		unsigned long i;
 		unsigned long ii;
 		unsigned long iii;
@@ -114,7 +97,7 @@ void main(){
 		}
 		
 		
-		void print(){
+		void print(x,y,color,print1){
 			
 			int i;
 	i=0xb800;
@@ -159,7 +142,7 @@ asm "cmp al,dl";
 	
 	}
 	
-	void cls3()
+	void cls3(cls1)
 {
 	int i;
 	i=0xb800;
@@ -200,7 +183,7 @@ asm "cmp bx,dx";
 		return  i;
 		}
 		
-		int max(){
+		int max(number1,number2){
 		int r ;
 		if ( number1>number2){
 			r=number1;
@@ -211,7 +194,7 @@ asm "cmp bx,dx";
 		}
 	
 	
-	int min(){
+	int min(number1,number2){
 		int r ;
 		if ( number1<number2){
 			r=number1;
@@ -222,7 +205,7 @@ asm "cmp bx,dx";
 		}
 	
 	
-	void sounds(){
+	void sounds(sound1,sound2){
 		int r;
 		long f1;
 		long f2;
@@ -271,8 +254,8 @@ asm "cmp bx,dx";
 		asm "out dx,al";
 		asm "pop ds";
 		
-		sleep1=sound2;
-		sleep();
+
+		sleep(sound2);
 		
 		i=0x61;
 	movedata(__get_ds(),&i,__get_cs(),0x84,2);
