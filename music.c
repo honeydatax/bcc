@@ -3,37 +3,26 @@
 #include <dos.h>
 #include <conio.h>
 
+;
 
-int sound1;
-int sound2;
-int delay1;
-void delay();
-void sounds();
+void delay(delay1);
+void sounds(sound1,sound2);
 
 void main(){
 	int c;
 	
-	sound1=523;
-	sound2=16;
-	sounds();
-	sound1=587;
-	sounds();
-	sound1=659;
-	sounds();
-	sound1=689;
-	sounds();
-	sound1=784;
-	sounds();
-	sound1=880;
-	sounds();
-	sound1=988;
-	sounds();
-	sound1=1046;
-	sounds();
+	sounds(523,15);
+	sounds(587,15);
+	sounds(659,15);
+	sounds(689,15);
+	sounds(784,16);
+	sounds(880,16);
+	sounds(988,16);
+	sounds(1046,16);
 	
 	}
 	
-void delay(){
+void delay(delay1){
 	unsigned long l;
 	unsigned long ll;
 	unsigned long lll;
@@ -84,7 +73,7 @@ void delay(){
 	while (ll<l) ;
 	}
 	
-	void sounds(){
+	void sounds(sound1,sound2){
 		int r;
 		long f1;
 		long f2;
@@ -133,8 +122,7 @@ void delay(){
 		asm "out dx,al";
 		asm "pop ds";
 		
-		delay1=sound2;
-		delay();
+		delay(sound2);
 		
 		i=0x61;
 	movedata(__get_ds(),&i,__get_cs(),0x84,2);
