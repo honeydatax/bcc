@@ -1,21 +1,18 @@
 #include <stdio.h>
-int number1;
-int number2;
-int max();
+
+int max(number1,number2);
 
 void main()
 
 {
 	
 	int c;
-	number1=100;
-	number2=200;
-	c=max();
-	printf("max(%d,%d)=%d",number1,number2,c);
+
+	printf("max(10,20)=%d",max(10,20));
 	
 	}
 	
-	int max(){
+	int max(number1,number2){
 		int r ;
 		if ( number1>number2){
 			r=number1;
