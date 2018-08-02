@@ -1,21 +1,18 @@
 #include <stdio.h>
-int number1;
-int number2;
-int min();
+
+int min(number1,number2);
 
 void main()
 
 {
 	
 	int c;
-	number1=100;
-	number2=200;
-	c=min();
-	printf("min(%d,%d)=%d",number1,number2,c);
+
+	printf("min(10,20)=%d",min(10,20));
 	
 	}
 	
-	int min(){
+	int min(number1,number2){
 		int r ;
 		if ( number1<number2){
 			r=number1;
