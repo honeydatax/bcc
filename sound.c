@@ -4,24 +4,18 @@
 #include <conio.h>
 
 
-int sound1;
-int sound2;
-int delay1;
-void delay();
-void sounds();
+
+void delay(delay1);
+void sounds(sound1,sound2);
 
 void main(){
 	int c;
-	sound1=1000;
-	sound2=20;
-	sounds();
-	sound1=500;
-	sounds();
-	sound1=800;
-	sounds();
+	sounds(1000,5);
+	sounds(500,5);
+	sounds(800,5);
 	}
 	
-void delay(){
+void delay(delay1){
 	unsigned long l;
 	unsigned long ll;
 	unsigned long lll;
@@ -72,7 +66,7 @@ void delay(){
 	while (ll<l) ;
 	}
 	
-	void sounds(){
+	void sounds(sound1,sound2){
 		int r;
 		long f1;
 		long f2;
@@ -121,8 +115,8 @@ void delay(){
 		asm "out dx,al";
 		asm "pop ds";
 		
-		delay1=sound2;
-		delay();
+
+		delay(sound2);
 		
 		i=0x61;
 	movedata(__get_ds(),&i,__get_cs(),0x84,2);
