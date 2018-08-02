@@ -4,34 +4,23 @@
 #include <conio.h>
 #include <string.h>
 
-int x;
-int y;
-char color;
-int print1;
-char cls1;
-int sleep1;
-void sleep();
-void print();
-void cls3();
+void sleep(sleep1);
+void print(x,y,color,print1);
+void cls3(cls1);
 void main(){
 	int c;
 	char ss[50];
 	char *s="wait 5 seconds";
 	strcpy(ss,s);
 	
-	print1=&ss;
-	cls1=0x17;
-	color=cls1;
-cls3();
-x=0;
-y=0;
-	print();
-	sleep1=5*18;
-	sleep();
+cls3(0x41);
+	print(0,0,0x41,&ss);
+
+	sleep(5*18);
 	
 	}
 	
-	void sleep(){
+	void sleep(sleep1){
 		unsigned long i;
 		unsigned long ii;
 		unsigned long iii;
@@ -48,7 +37,7 @@ y=0;
 		}
 		
 		
-		void print(){
+void print(x,y,color,print1){
 			
 			int i;
 	i=0xb800;
@@ -93,7 +82,7 @@ asm "cmp al,dl";
 	
 	}
 	
-	void cls3()
+	void cls3(cls1)
 {
 	int i;
 	i=0xb800;
